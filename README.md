@@ -1,10 +1,10 @@
 # vue-bus
 Tiny simple a central event bus plugin for [Vue.js](//vuejs.org) (requires Vue >= 2.0).
 
-The plugin realise [Non Parent-Child Communication](//vuejs.org/v2/guide/components.html#Non-Parent-Child-Communication)
+The plugin realise [Non Parent-Child Communication](//vuejs.org/v2/guide/components.html#Non-Parent-Child-Communication).
 
 ## Installation
-Download and use whith your build system, or simple include with a script tag after vue.js. :sparkles:
+Download and use with your build system, or simple include with a script tag after vue.js. :sparkles:
 
 ## Usage
 direct way:
