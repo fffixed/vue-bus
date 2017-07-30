@@ -23,8 +23,8 @@
     })
 
     Vue.mixin({
-      created: function () { //add option 'onbus' instead 'bus.$on in created'
-        var onbus = this.$options.onbus
+      created: function () { //add option "$bus" instead bus.$on in created hook
+        var onbus = this.$options.$bus
         if (typeof onbus === 'object') for (var name in onbus) {
           if (typeof onbus[name] === 'function') {
             bus.$on(name, onbus[name].bind(this)) // register a listener for the event
@@ -35,11 +35,11 @@
   }
 
 
-  // export if module
+  // if module
   if (typeof exports === 'object') { module.exports = vueBus; return }
   if (typeof define === 'function' && define.amd) { define([], function(){ return vueBus }); return }
 
-  // set global
+  // if direct include
   if (typeof window !== 'undefined' && window.Vue) {
     window.VueBus = vueBus
     window.Vue.use(vueBus) //auto-activation
