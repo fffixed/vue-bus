@@ -27,7 +27,7 @@ direct way:
 this.$bus.$emit('my-event', 1)
 
 // in component B's created hook
-this.$bus.$on('my-event', function (arg) {
+this.$bus.$on('my-event', function(arg) {
   // ...
 })
 ```
@@ -38,9 +38,7 @@ magic way:
 this.$bus=['my-event', 1]
 
 // in component B create $bus option
-methods: {
-  // ...
-},
+methods: { /* ... */ },
 $bus: {
   'my-event': function(arg) {
     // ...
