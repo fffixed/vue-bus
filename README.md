@@ -1,6 +1,8 @@
 # vue-bus
 A tiny simple central event bus plugin for [Vue.js](//vuejs.org) (requires Vue >= 2.0).
+
 The plugin realise [Non Parent-Child Communication](//vuejs.org/v2/guide/components.html#Non-Parent-Child-Communication).
+
 _(638 byte gzip)_
 
 ## Installation
@@ -12,10 +14,11 @@ var VueBus = require('vue-bus')
 // ...  and  ...
 Vue.use(VueBus)
 ```
-Or just include it with a script tag. :sparkles:
+Or just include it with a script tag
 ```html
 <script src="/vue-bus.js"></script>
 ```
+:sparkles:
 
 ## Usage
 direct way:
