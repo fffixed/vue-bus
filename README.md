@@ -37,8 +37,11 @@ magic way:
 // in component A's method
 this.$bus=['my-event', 1]
 
-// in component B create onbus option
-onbus: {
+// in component B create $bus option
+methods: {
+  // ...
+},
+$bus: {
   'my-event': function(arg) {
     // ...
   }
@@ -48,4 +51,4 @@ onbus: {
 ## License
 [MIT](//opensource.org/licenses/MIT)
 
-_Copyright (c) 2017 fffixed_
+Copyright (c) 2017 fffixed
