@@ -47,4 +47,5 @@ onbus: {
 
 ## License
 [MIT](//opensource.org/licenses/MIT)
-Copyright (c) 2017 fffixed
+
+_Copyright (c) 2017 fffixed_
