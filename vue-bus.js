@@ -1,5 +1,5 @@
 //*********************************************
-//    vue-bus v0.9
+//    vue-bus v0.9.1
 //    (c) 2017 fffixed
 //*********************************************
 ;(function() {
@@ -15,21 +15,25 @@
 
     Object.defineProperty(Vue.prototype, '$bus', { // for "this.$bus"
       get: function () { return bus },
-      set: function (evt) { // for alt way to send event (this.$bus=['event_name',...args])
+      set: function (evt) { // for alt way to send event (this.$bus=['event_name',arg1,arg2])
         if (typeof evt === 'string') evt = [evt]
         // if (evt instanceof Array)
-        bus.$emit.apply(bus,evt)
+        bus.$emit.apply(bus, evt)
       }
     })
 
     Vue.mixin({
       created: function () { //add option "$bus" instead bus.$on in created hook
-        var onbus = this.$options.$bus
-        if (typeof onbus === 'object') for (var name in onbus) {
-          if (typeof onbus[name] === 'function') {
-            bus.$on(name, onbus[name].bind(this)) // register a listener for the event
-          }
+        // if (this.$options.$bus !== 'object') return
+        var $bus = this.$options.$bus
+        for (var name in $bus) {
+          // if (typeof $bus[name] === 'function')
+          bus.$on(name, $bus[name].bind(this)) // register a listener for the event
         }
+      },
+      beforeDestroy: function () { // unreg listeners
+        var $bus = this.$options.$bus
+        for (var name in $bus) bus.$off(name, $bus[name].bind(this))
       }
     })
   }
@@ -44,5 +48,6 @@
     window.VueBus = vueBus
     window.Vue.use(vueBus) //auto-activation
   }
+
 
 })()
