@@ -3,7 +3,7 @@ A tiny simple central event bus plugin for [Vue.js](//vuejs.org) (requires Vue >
 
 The plugin realise [Non Parent-Child Communication](//vuejs.org/v2/guide/components.html#Non-Parent-Child-Communication).
 
-_(638 byte gzip)_
+_(655 byte gzip)_
 
 ## Installation
 Download and use with your build system
@@ -11,7 +11,9 @@ Download and use with your build system
 import VueBus from 'vue-bus'
 // ... maybe ...
 var VueBus = require('vue-bus')
+
 // ...  and  ...
+
 Vue.use(VueBus)
 ```
 Or just include it with a script tag
