@@ -1,4 +1,7 @@
 # vue-bus
+[![awesome-vue](https://img.shields.io/badge/Vue.js-AWESOME-ff69b4.svg)](//github.com/vuejs/awesome-vue)
+[![license](https://img.shields.io/github/license/fffixed/vue-bus.svg)](//opensource.org/licenses/MIT)
+
 A tiny simple central event bus plugin for [Vue.js](//vuejs.org) (requires Vue >= 2.0).
 
 The plugin realise [Non Parent-Child Communication](//vuejs.org/v2/guide/components.html#Non-Parent-Child-Communication).
