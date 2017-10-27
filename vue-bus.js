@@ -2,52 +2,88 @@
 //    vue-bus v0.9.1
 //    (c) 2017 fffixed
 //*********************************************
-;(function() {
-
-
-  var vueBus = {}
+(function () {
+  let vueBus = {}
 
   vueBus.install = function (Vue) {
-    var version = Number(Vue.version.split('.')[0])
-    if (version < 2) return //check Vue version
+    let version = Number(Vue.version.split('.')[0])
 
-    var bus = new Vue()
+    // Check Vue version
+    if (version < 2) {
+      return
+    }
 
-    Object.defineProperty(Vue.prototype, '$bus', { // for "this.$bus"
-      get: function () { return bus },
-      set: function (evt) { // for alt way to send event (this.$bus=['event_name',arg1,arg2])
-        if (typeof evt === 'string') evt = [evt]
-        // if (evt instanceof Array)
-        bus.$emit.apply(bus, evt)
+    let bus = new Vue()
+
+    /**
+     * Define "$bus" property on the Vue prototype "this.$bus"
+     */
+    Object.defineProperty(
+      Vue.prototype,
+      '$bus',
+      {
+        /**
+         * Get the bus
+         *
+         * @return  {Vue}  The bus
+         */
+        get: function () {
+          return bus
+        },
+
+        /**
+         * The alternative way to emit an event
+         * this.$bus = ['event_name', arg1, arg2, ..., argN]
+         *
+         * @param  {Array|String}  eventName  The event name
+         */
+        set: function (event) {
+          if (typeof event === 'string') {
+            event = [event]
+          }
+
+          bus.$emit.apply(bus, event)
+        }
       }
-    })
+    )
 
     Vue.mixin({
-      created: function () { //add option "$bus" instead bus.$on in created hook
-        // if (this.$options.$bus !== 'object') return
-        var $bus = this.$options.$bus
-        for (var name in $bus) {
-          // if (typeof $bus[name] === 'function')
-          bus.$on(name, $bus[name].bind(this)) // register a listener for the event
-        }
+      /**
+       * Register listeners for each event
+       */
+      created: function () {
+        let vm = this
+        Object.keys(this.$options.$bus).each(function (name) {
+          bus.$on(name, vm.$options.$bus[name].bind(vm))
+        })
       },
-      beforeDestroy: function () { // unreg listeners
-        var $bus = this.$options.$bus
-        for (var name in $bus) bus.$off(name, $bus[name].bind(this))
+
+      /**
+       * Unregister listeners
+       */
+      beforeDestroy: function () {
+        let vm = this
+        Object.keys(this.$options.$bus).each(function (name) {
+          bus.$off(name, vm.$options.$bus[name].bind(vm))
+        })
       }
     })
   }
 
-
-  // if module
-  if (typeof exports === 'object') { module.exports = vueBus; return }
-  if (typeof define === 'function' && define.amd) { define([], function(){ return vueBus }); return }
-
-  // if direct include
-  if (typeof window !== 'undefined' && window.Vue) {
-    window.VueBus = vueBus
-    window.Vue.use(vueBus) //auto-activation
+  // If module
+  if (typeof exports === 'object') {
+    module.exports = vueBus
+    return
   }
 
+  if (typeof define === 'function' && define.amd) {
+    define([], function () { return vueBus })
+    return
+  }
 
+  // If direct include
+  if (typeof window !== 'undefined' && window.Vue) {
+    window.VueBus = vueBus
+    window.Vue.use(vueBus) // Auto-activation
+  }
 })()
