@@ -12,6 +12,14 @@
     if (version < 2) return //check Vue version
 
     var bus = new Vue()
+    
+    bus = new Proxy(bus, {
+      set (obj, prop, value) {
+        // Prop should start with `on` and be a function
+        if (!prop.startsWith('on') || typeof value !== 'function') { obj[prop] = value; return }
+        obj.$on(prop.replace(/^on/i, ''), value)
+      }
+    })
 
     Object.defineProperty(Vue.prototype, '$bus', { // for "this.$bus"
       get: function () { return bus },
