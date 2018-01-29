@@ -35,6 +35,8 @@ this.$bus.$emit('my-event', 1)
 this.$bus.$on('my-event', function(arg) {
   // ...
 })
+
+//And don't forget to use "this.$bus.$off" to remove unnecessary listeners.
 ```
 
 magic way:
