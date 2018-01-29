@@ -1,5 +1,5 @@
 //*********************************************
-//    vue-bus v0.9.1
+//    vue-bus v0.9.2
 //    (c) 2017 fffixed
 //*********************************************
 ;(function() {
@@ -13,27 +13,26 @@
 
     var bus = new Vue()
 
-    Object.defineProperty(Vue.prototype, '$bus', { // for "this.$bus"
+    Object.defineProperty(Vue.prototype, '$bus', { //for "this.$bus"
       get: function () { return bus },
-      set: function (evt) { // for alt way to send event (this.$bus=['event_name',arg1,arg2])
+      set: function (evt) { //alt way to send an event (this.$bus=['event_name',arg1,arg2])
         if (typeof evt === 'string') evt = [evt]
-        // if (evt instanceof Array)
         bus.$emit.apply(bus, evt)
       }
     })
 
     Vue.mixin({
       created: function () { //add option "$bus" instead bus.$on in created hook
-        // if (this.$options.$bus !== 'object') return
         var $bus = this.$options.$bus
+        this.$busListeners = {}
         for (var name in $bus) {
-          // if (typeof $bus[name] === 'function')
-          bus.$on(name, $bus[name].bind(this)) // register a listener for the event
+          this.$busListeners[name] = $bus[name].bind(this) //rebind and remember each declared listener
+          bus.$on(name, this.$busListeners[name]) //register a listener for the event
         }
       },
-      beforeDestroy: function () { // unreg listeners
-        var $bus = this.$options.$bus
-        for (var name in $bus) bus.$off(name, $bus[name].bind(this))
+      beforeDestroy: function () { //unreg listeners
+        for (var name in this.$busListeners) bus.$off(name, this.$busListeners[name])
+        this.$busListeners = null
       }
     })
   }
